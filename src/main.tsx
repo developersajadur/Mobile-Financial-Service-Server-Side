@@ -7,10 +7,12 @@ import {
 import router from './routes/router.tsx';
 import { Provider } from 'react-redux';
 import { store } from './redux/store.ts';
+import { Toaster } from 'sonner';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Provider store={store}>
+    <Toaster richColors position="top-right" />
     <RouterProvider router={router}/>
     </Provider>
   </StrictMode>,
