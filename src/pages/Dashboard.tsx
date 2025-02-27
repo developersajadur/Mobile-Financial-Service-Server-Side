@@ -33,7 +33,7 @@ const DashboardPage = () => {
   const totalTransactions = transactionsData?.data?.totalTransaction ?? 0;
   const totalMoney = currentUserData?.data?.totalMoney ?? 0;
   const balance = currentUserData?.data?.balance ?? 0;
-  const income = currentUserData?.data?.income ?? 0; // Assuming `income` exists for agents
+  const income = currentUserData?.data?.income ?? 0; 
 
   // Function to toggle visibility
   const toggleBalance = () => setShowBalance(!showBalance);

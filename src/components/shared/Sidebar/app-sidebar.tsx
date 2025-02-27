@@ -32,7 +32,7 @@ type NavItem = {
   items?: { title: string; url: string }[];
 };
 
-// Define navigation data
+// Define navigation data 
 const navigationData: Record<UserRole, NavItem[]> = {
   user: [
     { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
@@ -47,7 +47,6 @@ const navigationData: Record<UserRole, NavItem[]> = {
   ],
   admin: [
     { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
-    { title: "Deposit", url: "/dashboard/deposit-money", icon: HandCoins },
     { title: "Transactions", url: "/dashboard/transactions", icon: ArrowRightLeft },
     { title: "Manage User", url: "/dashboard/manage-users", icon: Users },
     { title: "Approval Request", url: "/dashboard/approval-request", icon: GitPullRequestArrow },

@@ -1,4 +1,5 @@
 import App from "@/App";
+import ProtectedRoute from "@/components/Providers/ProtectedRoute";
 import ApprovalRequestPage from "@/pages/ApprovalRequest";
 import DashboardPage from "@/pages/Dashboard";
 import DepositPage from "@/pages/Deposit";
@@ -14,43 +15,43 @@ import { createBrowserRouter } from "react-router-dom";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element:<App />,
     children: [
       {
-        index: true, // Default route for "/"
-        element: <DashboardPage />,
+        index: true,
+        element:<DashboardPage />,
       },
       {
         path: "dashboard",
-        element: <DashboardPage />,
+        element: <ProtectedRoute role={["agent", "admin", "user"]}><DashboardPage /></ProtectedRoute>,
       },
       {
         path: "dashboard/deposit-money",
-        element: <DepositPage />,
+        element: <ProtectedRoute role={["agent"]}><DepositPage /></ProtectedRoute>,
       },
       {
         path: "dashboard/withdraw-money",
-        element: <WithdrawPage />,
+        element: <ProtectedRoute role={["user"]}><WithdrawPage /></ProtectedRoute>,
       },
       {
         path: "dashboard/transfer-money",
-        element: <TransferPage />,
+        element: <ProtectedRoute role={["user"]}><TransferPage /></ProtectedRoute>,
       },
       {
         path: "dashboard/transactions",
-        element: <TransactionsPage />,
+        element: <ProtectedRoute role={["agent", "admin", "user"]}><TransactionsPage /></ProtectedRoute>,
       },
       {
         path: "dashboard/manage-users",
-        element: <ManageUsersPage/>,
+        element: <ProtectedRoute role={["admin"]}><ManageUsersPage /></ProtectedRoute>,
       },
       {
         path: "dashboard/approval-request",
-        element: <ApprovalRequestPage/>,
+        element: <ProtectedRoute role={["admin"]}><ApprovalRequestPage /></ProtectedRoute>,
       },
       {
         path: "dashboard/transactions/users/:id",
-        element: <UserTransactionDetailsPage/>,
+        element: <ProtectedRoute role={["admin"]}><UserTransactionDetailsPage /></ProtectedRoute>,
       },
     ],
   },
@@ -65,3 +66,5 @@ const router = createBrowserRouter([
 ]);
 
 export default router;
+
+
