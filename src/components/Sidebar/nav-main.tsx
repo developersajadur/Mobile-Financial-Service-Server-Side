@@ -34,7 +34,7 @@ export function NavMain({
   }[]
 }) {
   return (
-    <SidebarGroup>
+    <SidebarGroup className="bg-white">
         <Link to="/dashboard">
       <SidebarGroupLabel className="text-2xl text-black mb-2 font-semibold">Your Wallet</SidebarGroupLabel>
       </Link>
