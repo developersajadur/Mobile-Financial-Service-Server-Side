@@ -1,5 +1,5 @@
 import App from "@/App";
-import ProtectedRoute from "@/components/Providers/ProtectedRoute";
+import ProtectedRoute from "@/Providers/ProtectedRoute";
 import ApprovalRequestPage from "@/pages/ApprovalRequest";
 import DashboardPage from "@/pages/Dashboard";
 import DepositPage from "@/pages/Deposit";
@@ -15,11 +15,11 @@ import { createBrowserRouter } from "react-router-dom";
 const router = createBrowserRouter([
   {
     path: "/",
-    element:<App />,
+    element:  <ProtectedRoute role={["agent", "admin", "user"]}><App /></ProtectedRoute>,
     children: [
       {
-        index: true,
-        element:<DashboardPage />,
+        index: true, // This makes `/` render `DashboardPage`
+        element: <ProtectedRoute role={["agent", "admin", "user"]}><DashboardPage /></ProtectedRoute>,
       },
       {
         path: "dashboard",
@@ -55,16 +55,8 @@ const router = createBrowserRouter([
       },
     ],
   },
-  {
-    path: "/login",
-    element: <LoginPage />,
-  },
-  {
-    path: "/register",
-    element: <RegisterPage />,
-  },
+  { path: "/login", element: <LoginPage /> },
+  { path: "/register", element: <RegisterPage /> },
 ]);
 
 export default router;
-
-

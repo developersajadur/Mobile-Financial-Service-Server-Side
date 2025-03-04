@@ -18,7 +18,27 @@ const authApi = baseApi.injectEndpoints({
                 body: userInfo
             })
         }),
+        logOut: builder.mutation({
+            query: (number) => ({
+              url: `/auth/logout`,
+              method: "POST",
+              body: { phoneNumber: number },
+            }),
+          }),
+          getUserFingerprint: builder.query({
+            query: () => ({
+                url: `/auth/get-fingerprint`,
+                method: "GET",
+              }),
+            }),
+          getDeviceFingerprintForMatching: builder.query({
+            query: () => ({
+                url: `/auth/get-fingerprint-for-matching`,
+                method: "GET",
+              }),
+            }),
+          })
+          
     })
-})
 
-export const {useLoginMutation, useRegisterMutation} = authApi;
+export const {useLoginMutation, useRegisterMutation, useLogOutMutation, useGetUserFingerprintQuery, useGetDeviceFingerprintForMatchingQuery} = authApi;

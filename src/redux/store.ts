@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit'
 import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import authReducer from './features/Auth/authSlice'
+import deviceFingerprintReducer from './features/Auth/deviceFingerprintSlice'
 import { baseApi } from './api/baseApi'
 
 
@@ -18,6 +19,8 @@ export const store = configureStore({
   reducer: {
     [baseApi.reducerPath]: baseApi.reducer,
     auth: persistedReducer,
+    deviceFingerprint: deviceFingerprintReducer,
+
   },
   middleware: (getDefaultMiddlewares) => 
     getDefaultMiddlewares({

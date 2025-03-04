@@ -9,7 +9,7 @@ export const withdrawApi = baseApi.injectEndpoints({
                 method: 'POST',
                 body: withdrawData,
             }),
-            invalidatesTags: ['transactions'],
+            invalidatesTags: ['transactions', "users"],
         }),
     })
 })

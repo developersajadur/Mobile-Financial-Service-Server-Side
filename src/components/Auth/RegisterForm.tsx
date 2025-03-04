@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -113,7 +114,7 @@ export function RegisterForm({
           >
             <div className="flex flex-col items-center text-center">
               <h1 className="text-2xl font-bold">Create an Account</h1>
-              <p className="text-muted-foreground">Join Acme Inc today!</p>
+              <p className="text-muted-foreground">Join today!</p>
             </div>
 
             {/* Full Name Input */}

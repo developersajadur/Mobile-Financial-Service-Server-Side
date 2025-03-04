@@ -29,7 +29,7 @@ const transactionApi = baseApi.injectEndpoints({
         method: "GET",
         params: { userId },
       }),
-      providesTags: ["transactions"], // Corrected placement
+      providesTags: ["transactions"],
     }),
   }),
 });

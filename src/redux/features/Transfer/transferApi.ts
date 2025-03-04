@@ -9,7 +9,7 @@ export const transferApi = baseApi.injectEndpoints({
                 method: 'POST',
                 body: transferData,
             }),
-            invalidatesTags: ['transactions'],
+            invalidatesTags: ['transactions', "users"],
         }),
     })
 })

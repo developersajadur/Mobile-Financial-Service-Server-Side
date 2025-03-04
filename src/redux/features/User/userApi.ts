@@ -17,6 +17,7 @@ const userApi = baseApi.injectEndpoints({
               url: "/users/count",
               method: "GET",
             }),
+            providesTags: ["users"],
           }),
         getApprovalRequest: builder.query({
             query: () => ({
@@ -32,6 +33,7 @@ const userApi = baseApi.injectEndpoints({
               method: "GET",
               body: args.data
             }),
+            providesTags: ["users"],
           }),
           updateUserStatus: builder.mutation({
             query: ({ userId, isBlocked }) => ({

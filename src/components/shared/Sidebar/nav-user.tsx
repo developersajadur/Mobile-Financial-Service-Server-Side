@@ -1,14 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 
 import {
-  BadgeCheck,
-  Bell,
   ChevronsUpDown,
-  CreditCard,
   LogOut,
   Phone,
   ShieldUser,
-  Sparkles,
 } from "lucide-react"
 
 import {
@@ -37,18 +34,27 @@ import { useAppDispatch } from "@/redux/hooks"
 import { useNavigate } from "react-router-dom"
 import { logOutUser } from "@/redux/features/Auth/authSlice"
 import { toast } from "sonner"
+import { useLogOutMutation } from "@/redux/features/Auth/authApi"
 
 export function NavUser() {
+  const [logOut] = useLogOutMutation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
     const user = useUser();
   const { isMobile } = useSidebar()
 
-  const handleLogout = () => {
-    dispatch(logOutUser());
-    toast.success("You have successfully logged out");
-    navigate("/login");
+  const handleLogout = async () => {
+    try {
+      await logOut(user.phoneNumber).unwrap();
+        dispatch(logOutUser()); 
+        toast.success("Logged out successfully!");
+        navigate("/login");
+
+    } catch (error:any) {
+      toast.error(error.message || "Logout failed. Please try again.");
+    }
   };
+  
 
   return (
     <SidebarMenu>
@@ -60,7 +66,7 @@ export function NavUser() {
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <Avatar className="h-8 w-8 rounded-lg">
-                <AvatarImage src={avatar} alt={user.fullName} />
+                <AvatarImage src={avatar} alt={user?.fullName} />
                 <AvatarFallback className="rounded-lg">CN</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">

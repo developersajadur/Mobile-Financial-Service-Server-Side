@@ -9,7 +9,7 @@ const depositApi = baseApi.injectEndpoints({
                 method: 'POST',
                 body: depositData,
             }),
-            invalidatesTags: ['transactions'],
+            invalidatesTags: ['transactions', "users"],
         }),
     })
 })

@@ -4,7 +4,6 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Eye, EyeOff } from "lucide-react";
-
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -17,7 +16,10 @@ import { useDispatch } from "react-redux";
 import { toast } from "sonner";
 import { verifyToken } from "@/utils/verifyToken";
 import { setUser } from "@/redux/features/Auth/authSlice";
+import DuplicateDeviceAlertDialog from "./DubbleDeviceAlertDialog";
+import { setFingerprintNumber } from "@/redux/features/Auth/deviceFingerprintSlice";
 
+// Define Login Data Type
 type TLoginData = {
   phoneNumber: string;
   password: string;
@@ -36,31 +38,32 @@ const loginSchema = z.object({
     .regex(/^\d+$/, "Password must contain only numbers"),
 });
 
-export function LoginForm({
-  className,
-  ...props
-}: React.ComponentProps<"div">) {
+export function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
   const [loginUser] = useLoginMutation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  // Form Handling
   const {
     register,
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm({
-    resolver: zodResolver(loginSchema), // Use Zod Resolver
+  } = useForm<TLoginData>({
+    resolver: zodResolver(loginSchema),
   });
 
   const [showPassword, setShowPassword] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const onSubmit: SubmitHandler<TLoginData> = async (data) => {
+    const phoneNumber = data.phoneNumber.replace(/^0+/, "")
     const dataToLogin = {
       ...data,
-      phoneNumber: data.phoneNumber.replace(/^0+/, ""),
+      phoneNumber
     };
 
-    const toastId = toast.loading("Logging in");
+    const toastId = toast.loading("Logging in...");
     try {
       const res = await loginUser(dataToLogin).unwrap();
       if (res.success) {
@@ -71,9 +74,12 @@ export function LoginForm({
         navigate("/");
       }
     } catch (error: any) {
+      if (error.status === 403) {
+        dispatch(setFingerprintNumber(phoneNumber));
+    setIsDialogOpen(true);
+      }
       const errorMessage =
         error?.data?.message || error?.error || "Something went wrong!";
-
       toast.error(errorMessage, { id: toastId, duration: 2000 });
     }
   };
@@ -86,9 +92,7 @@ export function LoginForm({
             <div className="flex flex-col gap-6">
               <div className="flex flex-col items-center text-center">
                 <h1 className="text-2xl font-bold">Welcome back</h1>
-                <p className="text-muted-foreground">
-                  Login to your Acme Inc account
-                </p>
+                <p className="text-muted-foreground">Login to your account</p>
               </div>
 
               {/* Phone Number Input */}
@@ -116,6 +120,7 @@ export function LoginForm({
                   <Input
                     id="password"
                     type={showPassword ? "text" : "password"}
+                    placeholder="Enter your password"
                     {...register("password")}
                   />
                   <button
@@ -158,6 +163,12 @@ export function LoginForm({
           </div>
         </CardContent>
       </Card>
+
+      {/* Duplicate Device Alert Dialog */}
+      <DuplicateDeviceAlertDialog
+        isOpen={isDialogOpen} 
+        onClose={() => setIsDialogOpen(false)} 
+      />
     </div>
   );
 }
